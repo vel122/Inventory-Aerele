@@ -154,7 +154,7 @@ def add_movements():
 @app.route('/edit_movement/<int:id>', methods=['GET', 'POST'])
 def edit_movement(id):
     con = mysql.connection.cursor()
-    con.execute("SELECT * FROM movements WHERE m_id = %s", [id])  # Use m_id instead of id
+    con.execute("SELECT * FROM movements WHERE m_id = %s", [id])  
     movement = con.fetchone()
     if request.method == 'POST':
         product_id = request.form['product_id']

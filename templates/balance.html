@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Balance Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h1 {
+            color:black;
+        }
+        table {
+            width: 60%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px 12px;
+            text-align: center;
+        }
+        th {
+            background-color:#4CAF50;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #0066cc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Balance Report</h1>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Location</th>
+            <th>Quantity</th>
+        </tr>
+        {% for data in datas %}
+        <tr>
+            <td>{{ data.product }}</td>
+            <td>{{ data.location if data.location is not none else "None" }}</td>
+            <td>{{ data.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('home') }}"> Back to Home</a>
+</body>
+</html>

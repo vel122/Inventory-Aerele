@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 300px;
+        }
+
+        label, input {
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            color: blue;
+        }
+
+        .back-link:hover {
+            color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Location</h1>
+    <form method="POST">
+        <label for="id">Location ID:</label>
+        <input type="text" name="id" id="id" value="{{ location.id }}" pattern="\d+">
+        <input type="submit" value="Update">
+    </form>
+
+    <a class="back-link" href="{{ url_for('locations') }}">Back to Locations</a>
+</body>
+</html>

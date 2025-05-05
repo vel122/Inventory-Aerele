@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        form {
+            width: 400px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: rgb(55, 33, 197);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Add Product</h2>
+    <form method="POST" action="/add_products">
+        <form>
+            <label for="product_id">Product ID</label>
+            <input type="text" name="product_id" pattern="\d+" title="Only numbers allowed" required>
+        
+            <label for="product_name">Product Name</label>
+            <input type="text" name="product_name" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed" required>
+        
+            <label for="quantity">Quantity</label>
+            <input type="number" name="quantity" min="1" title="Only numbers allowed" required>
+        
+            <input type="submit" value="Add Product">
+        </form>
+        
+    </form>
+
+    <a href="/"> Back to Home</a>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        a {
+            color: blue;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Movements</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Quantity</th>
+            <th>Timestamp</th>
+            <th>Edit</th> <!-- Added an Actions column for Edit -->
+        </tr>
+        {% for data in datas %}
+        <tr>
+            <td>{{ data.m_id }}</td>
+            <td>{{ data.product_id }}</td>
+            <td>{{ data.from_location or 'None' }}</td>
+            <td>{{ data.to_location }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>{{ data.time }}</td>
+            <td>
+                <a href="{{ url_for('edit_movement', id=data.m_id) }}">Edit</a> <!-- Ensures that the ID is used for the edit URL -->
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="nav-links">
+        <a href="{{ url_for('add_movements') }}">Add Movements</a>
+        <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+</body>
+</html>

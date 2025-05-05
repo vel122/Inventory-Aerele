@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Products</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 50px;
+            flex-direction: column; /* Align items in a column */
+            width: 100%; /* Make sure it takes up the full width */
+        }
+
+        .table-container {
+            width: 80%; /* Set the table container to be narrower */
+            margin-bottom: 20px; /* Add some space below the table */
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%; /* Ensure the table takes up the full width of its container */
+        }
+
+        th, td {
+            padding: 10px 20px;
+            border: 1px solid black;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .links a {
+            margin: 10px;
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            color: blue;
+            font-weight: bold;
+        }
+        .edit-link {
+            color:  blue;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .edit-link:hover {
+            color:  blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>PRODUCT ID</th>
+                    <th>PRODUCT NAME</th>
+                    <th>QUANTITY</th>
+                    <th>EDIT</th>
+                </tr>
+                {% for data in datas %}
+                <tr>
+                    <td>{{ data.product_id }}</td>
+                    <td>{{ data.product_name }}</td>
+                    <td>{{ data.quantity }}</td>
+                    <td><a class="edit-link" href="{{ url_for('edit_product', product_id=data.product_id) }}">Edit</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    
+        <div class="links">
+            <a href="{{ url_for('add_products') }}">Add product</a>
+            <a href="{{ url_for('home') }}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

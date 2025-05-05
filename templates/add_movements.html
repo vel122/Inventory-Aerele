@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Movements</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+
+        #available {
+            font-weight: bold;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #1a237e;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #fromDiv, #toDiv {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ADD Movements</h1>
+
+    <form method="post" onsubmit="return validateForm();">
+
+        <div class="form-section">
+            <label for="product_id">PRODUCT</label>
+            <select name="product_id" id="product_id">
+                {% for product in products %}
+                    <option value="{{ product.product_id }}">{{ product.product_id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label for="movement_type">Movement Type</label>
+            <select id="movement_type" name="movement_type" onchange="toggleFields()" required>
+                <option value="">--Select--</option>
+                <option value="in">Inbound (To only)</option>
+                <option value="out">Outbound (From only)</option>
+                <option value="transfer">Transfer (From and To)</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <p>Available quantity: <span id="available">-</span></p>
+        </div>
+
+        <!-- From Location Dropdown -->
+        <div id="fromDiv" class="form-section">
+            <label for="from_location">FROM</label>
+            <select name="from_location" id="from_location">
+                <option value="">-- Select Location --</option>
+                {% for loc in locations %}
+                    <option value="{{ loc.id }}">{{ loc.id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- To Location Dropdown -->
+        <div id="toDiv" class="form-section">
+            <label for="to_location">TO</label>
+            <select name="to_location" id="to_location">
+                <option value="">-- Select Location --</option>
+                {% for loc in locations %}
+                    <option value="{{ loc.id }}">{{ loc.id }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label for="quantity">QTY</label>
+            <input type="number" name="quantity" id="quantity" required>
+        </div>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Add Movement">
+    </form>
+
+    <a href="{{ url_for('movements') }}">Back</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const productSelect = document.querySelector('#product_id');
+            const availableDisplay = document.querySelector('#available');
+
+            function fetchAvailableQuantity(productId) {
+                fetch(`/get_available/${productId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        availableDisplay.textContent = data.available;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching available quantity:', error);
+                        availableDisplay.textContent = "Error";
+                    });
+            }
+
+            productSelect.addEventListener('change', function () {
+                fetchAvailableQuantity(this.value);
+            });
+
+            // Initial load
+            if (productSelect.value) {
+                fetchAvailableQuantity(productSelect.value);
+            }
+
+            // Hide fields initially
+            toggleFields();
+        });
+
+        function toggleFields() {
+            const type = document.getElementById("movement_type").value;
+            document.getElementById("fromDiv").style.display = (type === "out" || type === "transfer") ? "block" : "none";
+            document.getElementById("toDiv").style.display = (type === "in" || type === "transfer") ? "block" : "none";
+        }
+
+        function validateForm() {
+            const availableQty = parseInt(document.getElementById("available").textContent);
+            const enteredQty = parseInt(document.getElementById("quantity").value);
+            const type = document.getElementById("movement_type").value;
+
+            if (!type) {
+                alert("Please select a movement type.");
+                return false;
+            }
+
+            if (isNaN(enteredQty) || enteredQty <= 0) {
+                alert("Please enter a valid quantity.");
+                return false;
+            }
+
+            if ((type === "out" || type === "transfer") && enteredQty > availableQty) {
+                alert("Entered quantity exceeds available stock.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

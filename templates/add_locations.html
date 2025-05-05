@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 400px;
+        }
+
+        label {
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #000;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: fit-content;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            margin-top: 20px;
+            display: inline-block;
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #000080;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Location</h1>
+    <form action="" method="POST">
+        <label for="id">Location ID</label>
+        <input type="text" name="id" pattern="\d+" title="only numbers" required>
+
+        <input type="submit" value="Add Location">
+    </form>
+
+    <a href="{{ url_for('locations') }}">Back to Locations</a>
+</body>
+</html>

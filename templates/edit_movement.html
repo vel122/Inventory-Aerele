@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Movement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 60px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 90%;
+            padding: 8px;
+            margin-top: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        p {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="text-align:center;">Edit Movement</h2>
+
+<form method="POST">
+    <label for="product_id">Product ID:</label>
+    <select name="product_id" id="product_id">
+        {% for p in products %}
+        <option value="{{ p.product_id }}" {% if p.product_id == movement.product_id %}selected{% endif %}>{{ p.product_id }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Movement Type -->
+    <label for="movement_type">Movement Type:</label>
+    <select name="movement_type" id="movement_type">
+        <option value="in" {% if movement.movement_type == 'in' %}selected{% endif %}>Inbound</option>
+        <option value="out" {% if movement.movement_type == 'out' %}selected{% endif %}>Outbound</option>
+        <option value="transfer" {% if movement.movement_type == 'transfer' %}selected{% endif %}>Transfer</option>
+    </select>
+
+    <!-- Available Quantity Display -->
+    <p>Available quantity: <span id="available">-</span></p>
+
+    <label for="from_location">From Location:</label>
+    <select name="from_location" id="from_location">
+        <option value="">None</option>
+        {% for loc in locations %}
+        <option value="{{ loc.id }}" {% if movement.from_location == loc.id %}selected{% endif %}>{{ loc.id }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="to_location">To Location:</label>
+    <select name="to_location" id="to_location">
+        <option value="">None</option>
+        {% for loc in locations %}
+        <option value="{{ loc.id }}" {% if movement.to_location == loc.id %}selected{% endif %}>{{ loc.id }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" name="quantity" id="quantity" value="{{ movement.quantity }}" required>
+
+    <button type="submit">Update Movement</button>
+    <a href="{{ url_for('movements') }}">Back</a>
+    </a>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productSelect = document.getElementById('product_id');
+        const availableDisplay = document.getElementById('available');
+        const form = document.querySelector('form');
+
+        function fetchAvailableQuantity(productId) {
+            fetch(`/get_available/${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    availableDisplay.textContent = data.available;
+                })
+                .catch(error => {
+                    console.error('Error fetching available quantity:', error);
+                    availableDisplay.textContent = "0";
+                });
+        }
+
+        // Fetch on load
+        if (productSelect.value) {
+            fetchAvailableQuantity(productSelect.value);
+        }
+
+        // Fetch when product changes
+        productSelect.addEventListener('change', () => {
+            fetchAvailableQuantity(productSelect.value);
+        });
+
+        // Validate before submission
+        form.addEventListener('submit', function (e) {
+            const qty = parseInt(document.getElementById('quantity').value);
+            const available = parseInt(availableDisplay.textContent);
+            const movementType = document.getElementById('movement_type').value;
+
+            if ((movementType === 'out' || movementType === 'transfer') && qty > available) {
+                e.preventDefault();
+                alert("Entered quantity exceeds available stock.");
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

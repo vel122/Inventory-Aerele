@@ -45,6 +45,12 @@ This is our final Report page
 
 
 
+This is the Video Recording of my Inventory system
+https://github.com/user-attachments/assets/4b1336fb-806e-41e5-87bd-e52041b552d6
+
+
+
+
 
 
 

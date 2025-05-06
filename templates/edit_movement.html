@@ -56,7 +56,7 @@
         {% endfor %}
     </select>
 
-    <!-- Movement Type -->
+    
     <label for="movement_type">Movement Type:</label>
     <select name="movement_type" id="movement_type">
         <option value="in" {% if movement.movement_type == 'in' %}selected{% endif %}>Inbound</option>
@@ -64,7 +64,7 @@
         <option value="transfer" {% if movement.movement_type == 'transfer' %}selected{% endif %}>Transfer</option>
     </select>
 
-    <!-- Available Quantity Display -->
+
     <p>Available quantity: <span id="available">-</span></p>
 
     <label for="from_location">From Location:</label>
@@ -109,17 +109,17 @@
                 });
         }
 
-        // Fetch on load
+    
         if (productSelect.value) {
             fetchAvailableQuantity(productSelect.value);
         }
 
-        // Fetch when product changes
+    
         productSelect.addEventListener('change', () => {
             fetchAvailableQuantity(productSelect.value);
         });
 
-        // Validate before submission
+    
         form.addEventListener('submit', function (e) {
             const qty = parseInt(document.getElementById('quantity').value);
             const available = parseInt(availableDisplay.textContent);

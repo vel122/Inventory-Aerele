@@ -98,7 +98,7 @@
             <p>Available quantity: <span id="available">-</span></p>
         </div>
 
-        <!-- From Location Dropdown -->
+
         <div id="fromDiv" class="form-section">
             <label for="from_location">FROM</label>
             <select name="from_location" id="from_location">
@@ -109,7 +109,7 @@
             </select>
         </div>
 
-        <!-- To Location Dropdown -->
+        
         <div id="toDiv" class="form-section">
             <label for="to_location">TO</label>
             <select name="to_location" id="to_location">
@@ -125,7 +125,7 @@
             <input type="number" name="quantity" id="quantity" required>
         </div>
 
-        <!-- Submit Button -->
+
         <input type="submit" value="Add Movement">
     </form>
 
@@ -152,12 +152,12 @@
                 fetchAvailableQuantity(this.value);
             });
 
-            // Initial load
+        
             if (productSelect.value) {
                 fetchAvailableQuantity(productSelect.value);
             }
 
-            // Hide fields initially
+
             toggleFields();
         });
 

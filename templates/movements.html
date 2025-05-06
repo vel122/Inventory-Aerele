@@ -55,7 +55,7 @@
             <th>To</th>
             <th>Quantity</th>
             <th>Timestamp</th>
-            <th>Edit</th> <!-- Added an Actions column for Edit -->
+            <th>Edit</th>
         </tr>
         {% for data in datas %}
         <tr>
@@ -66,7 +66,7 @@
             <td>{{ data.quantity }}</td>
             <td>{{ data.time }}</td>
             <td>
-                <a href="{{ url_for('edit_movement', id=data.m_id) }}">Edit</a> <!-- Ensures that the ID is used for the edit URL -->
+                <a href="{{ url_for('edit_movement', id=data.m_id) }}">Edit</a>
             </td>
         </tr>
         {% endfor %}
